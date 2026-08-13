@@ -1,0 +1,54 @@
+[package]
+name = "usb_vector_enum"
+version = "0.1.0"
+edition = "2021"
+authors = ["NVMELECTRIC <envcc3@gmail.com>"]
+description = "⚡ USB Vector Enum - The Ultimate Cross-Platform USB Device Discovery Engine. Real-time USB device enumeration with instant notifications, full device metadata, and blazingly-fast vector-backed queries."
+license = "MIT"
+repository = "https://github.com/NVMELECTRIC/usb_vector_enum-"
+readme = "README.md"
+keywords = ["usb", "device", "enumeration", "hardware", "cross-platform"]
+categories = ["hardware-support", "os"]
+
+[lib]
+name = "usb_vector_enum"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[[example]]
+name = "basic_enumeration"
+path = "examples/basic_enumeration.rs"
+
+[dependencies]
+rusb = "0.9"
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+crossbeam-channel = "0.5"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+once_cell = "1.19"
+futures = "0.3"
+async-trait = "0.1"
+regex = "1.10"
+
+[dev-dependencies]
+tokio-test = "0.4"
+proptest = "1.4"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.dev]
+opt-level = 0
+
+[features]
+default = ["runtime"]
+runtime = ["tokio"]
+python-bindings = []
+node-bindings = []
